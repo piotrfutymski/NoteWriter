@@ -5,8 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteWriter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="NoteWriter" Height="720" Width="1180" BorderBrush="#FF002070" Background="#FF080810" >
+    <Grid HorizontalAlignment="Left" Height="688" VerticalAlignment="Top" Width="1170">
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="Auto"/>
+            <RowDefinition Height ="Auto"/>
+            <RowDefinition Height ="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="Auto"/>
+            <ColumnDefinition Width ="Auto"/>
+            <ColumnDefinition Width ="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="Azure" Grid.Row="0" Grid.Column="0" Margin="64,64,25,25" BorderThickness="2" Width="484" Height="154">
+            <Canvas  Width="480" Height="150"  Background="Black" />
+        </Border>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="25,64,25,25" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border BorderBrush="DarkGreen" BorderThickness="1">
+                <Label Content="Frequency:" Background="White" FontSize="16" />
+            </Border>
+            <Border BorderBrush="DarkGreen" BorderThickness="1">
+                <Label Content="650Hz" Background="White" FontSize="16" />
+            </Border>
+        </StackPanel>
+
+        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="25,64,64,25">
+            <Button Content="Start" Height="50" Width="100" Margin="10" FontSize="16"></Button>
+            <Button Content="Stop" Height="50" Width="100" Margin="10" FontSize="16"></Button>
+            <Button Content="Save" Height="50" Width="100" Margin="10" FontSize="16"></Button>
+            <Label Content ="Nagrywanie" Background="White" Margin="10" FontSize="16" Width="340" HorizontalContentAlignment="Center" Foreground="#FF10B827" />
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan ="3" Margin="25,64,64,25" Background="#FF838383">
+            
+        </WrapPanel>
+
+        <Border BorderBrush="Black" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan ="3" Margin="64,25,64,64" BorderThickness="2" Width="924" Height="184">
+            <Canvas  Width="920" Height="180"  Background="White" />
+        </Border>
+
     </Grid>
 </Window>
