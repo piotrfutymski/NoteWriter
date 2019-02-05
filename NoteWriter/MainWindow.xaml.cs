@@ -20,9 +20,53 @@ namespace NoteWriter
     /// </summary>
     public partial class MainWindow : Window
     {
+        AudioCapturer capturer;
+        WaveRenderer renderer;
+
+
         public MainWindow()
         {
             InitializeComponent();
+            capturer = new AudioCapturer();
+            renderer = new WaveRenderer();
+            renderer.Init((int)bmpWaves.Height, (int)bmpWaves.Width);
+        }
+
+        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                capturer.StartRecording();
+                btnStart.IsEnabled = false;
+                btnStop.IsEnabled = true;
+            }
+            catch (NAudio.MmException ex)
+            {
+                System.Windows.MessageBox.Show(string.Format("{0} \n Try to connect a microphone.", ex.Message));
+            }
+           
+        }
+
+        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        {
+            capturer.StopRecording();
+            btnStart.IsEnabled = true;
+            btnStop.IsEnabled = false;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (capturer.Data != null)
+                RenderThreadFunc();
+        }
+
+        private void RenderThreadFunc()
+        {
+            renderer.Render(capturer.Data, Math.Max(capturer.Data.Count - 900, 0));
+            var bmp = renderer.RenderedBitmap;
+            BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
+                System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            bmpWaves.Source = b;
         }
 
     }
