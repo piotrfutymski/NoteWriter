@@ -23,7 +23,6 @@ namespace NoteWriter
         AudioCapturer capturer;
         WaveRenderer renderer;
         System.Windows.Threading.DispatcherTimer mainTimer;
-        private int last = 0;
 
         public MainWindow()
         {
@@ -39,6 +38,8 @@ namespace NoteWriter
             //mainTimer.Tick += MainTimer_Tick;
             mainTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             mainTimer.Start();
+
+            slDence.DataContext = capturer;
         }
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
@@ -47,7 +48,10 @@ namespace NoteWriter
             var bmp = renderer.RenderedBitmap;
             BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
                 System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            bmpWaves.Source = null;
             bmpWaves.Source = b;
+
+            lbFrec.Content = SoundCalculator.GetFrequency(e.pickData);
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -74,7 +78,12 @@ namespace NoteWriter
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-           
+            renderer.Render(capturer.LastSound, 0);
+            var bmp = renderer.RenderedBitmap;
+            BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
+                System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            bmpWaves.Source = b;
+
         }
 
       /*  private void RenderThreadFunc()

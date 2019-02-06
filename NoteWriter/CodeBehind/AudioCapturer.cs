@@ -59,7 +59,7 @@ namespace NoteWriter
 
         public NAudio.Wave.WaveFormat WaveFormat { get => m_waveSource.WaveFormat; }
         public bool IsRecording { get => m_isRecording; }
-        public List<float> LaudPeak { get => m_laudPeak;}
+        public List<float> LastSound { get => m_lastSample;}
         public float Dence { get => m_Dence; set => m_Dence = value; }
 
         public void StartRecording()
