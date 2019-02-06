@@ -22,7 +22,8 @@ namespace NoteWriter
     {
         AudioCapturer capturer;
         WaveRenderer renderer;
-
+        System.Windows.Threading.DispatcherTimer mainTimer;
+        private int last = 0;
 
         public MainWindow()
         {
@@ -30,6 +31,24 @@ namespace NoteWriter
             capturer = new AudioCapturer();
             renderer = new WaveRenderer();
             renderer.Init((int)bmpWaves.Height, (int)bmpWaves.Width);
+
+            mainTimer = new System.Windows.Threading.DispatcherTimer();
+            mainTimer.Tick += MainTimer_Tick;
+            mainTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
+            mainTimer.Start();
+        }
+
+        private void MainTimer_Tick(object sender, EventArgs e)
+        {
+            if(capturer.LaudPeak != last && capturer.LaudPeak!=0)
+            {
+                last = capturer.LaudPeak;
+                renderer.Render(capturer.Data, last);
+                var bmp = renderer.RenderedBitmap;
+                BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
+                    System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+                bmpWaves.Source = b;
+            }
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
