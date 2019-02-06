@@ -29,26 +29,25 @@ namespace NoteWriter
         {
             InitializeComponent();
             capturer = new AudioCapturer();
+
+            capturer.NewPick += Capturer_NewPick;
+
             renderer = new WaveRenderer();
             renderer.Init((int)bmpWaves.Height, (int)bmpWaves.Width);
 
             mainTimer = new System.Windows.Threading.DispatcherTimer();
-            mainTimer.Tick += MainTimer_Tick;
+            //mainTimer.Tick += MainTimer_Tick;
             mainTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             mainTimer.Start();
         }
 
-        private void MainTimer_Tick(object sender, EventArgs e)
+        private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
-            if(capturer.LaudPeak != last && capturer.LaudPeak!=0)
-            {
-                last = capturer.LaudPeak;
-                renderer.Render(capturer.Data, last);
-                var bmp = renderer.RenderedBitmap;
-                BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
-                    System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
-                bmpWaves.Source = b;
-            }
+            renderer.Render(e.pickData, 0);
+            var bmp = renderer.RenderedBitmap;
+            BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
+                System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+            bmpWaves.Source = b;
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -75,18 +74,17 @@ namespace NoteWriter
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (capturer.Data != null)
-                RenderThreadFunc();
+           
         }
 
-        private void RenderThreadFunc()
+      /*  private void RenderThreadFunc()
         {
             renderer.Render(capturer.Data, Math.Max(capturer.Data.Count - 900, 0));
             var bmp = renderer.RenderedBitmap;
             BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
                 System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
             bmpWaves.Source = b;
-        }
+        }*/
 
     }
 }

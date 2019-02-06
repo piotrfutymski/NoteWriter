@@ -8,6 +8,12 @@ namespace NoteWriter
 {
     static class SoundCalculator
     {
+
+        public static float GetAvarage(List<float> data, int jmp = 1)
+        {
+            return GetAvarage(data, 0, data.Count, jmp);
+        }
+
         public static float GetAvarage(List<float> data, int start, float stop, int jmp = 1)
         {
             float avarage = 0;
