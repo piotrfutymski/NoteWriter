@@ -62,11 +62,6 @@ namespace NoteWriter
             return res;
         }
 
-        public static float GetFrequency0(List<float> data)
-        {
-            return (44100 / (2 * data.Count / HowMany0(data)));
-        }
-
         private static int FindFirst0(List<float> data)
         {
             for (int i = 0; i < data.Count - 1; i++)

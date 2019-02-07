@@ -4,6 +4,8 @@ using System.Linq;
 using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace NoteWriter
 {
@@ -12,30 +14,36 @@ namespace NoteWriter
         int m_height;
         int m_width;
 
-        Bitmap m_rendered = null;
+        Line[] m_tLines;
 
-        public WaveRenderer() { }
+        Canvas m_screen;
 
-        public Bitmap RenderedBitmap { get => m_rendered; }
-
-        public void Init( int h, int w)
+        public WaveRenderer(Canvas s)
         {
-            m_height = h;
-            m_width = w;
+            m_screen = s;
+            m_height = (int)s.Height;
+            m_width = (int)s.Width;
+
+            m_tLines = new  Line[m_width];
+
+            for (int i = 0; i < m_width; i++)
+            {
+                m_tLines[i] = new Line();
+            }
+
+            foreach (var item in m_tLines)
+            {
+                m_screen.Children.Add(item);
+                item.Visibility = System.Windows.Visibility.Hidden;
+            }
+
         }
 
         public void Render(List<float> data, int offset)
         {
-            m_rendered = new Bitmap(m_width, m_height);
-            var g = Graphics.FromImage(m_rendered);
-            var br = new SolidBrush(Color.Black);
-
-            g.FillRectangle(br, 0, 0, m_width, m_height);
 
             Point pointA = new Point(0,0);
             Point pointB = new Point(0,0);
-
-            var pen = new Pen(Color.Red);
 
             for (int i = offset; i < offset+m_width && i < data.Count; i++)
             {
@@ -43,16 +51,20 @@ namespace NoteWriter
                 pointA.Y = (int)((m_height / 2) * (data[i] + 1));
                 pointB.Y = pointA.Y + 1;
 
-                g.DrawLine(pen, pointA, pointB);
+                m_tLines[pointA.X].X1 = pointA.X;
+                m_tLines[pointA.X].X2 = pointB.X;
+                m_tLines[pointA.X].Y1 = pointA.Y;
+                m_tLines[pointA.X].Y2 = pointB.Y;
+
+                m_tLines[pointA.X].StrokeThickness = 1;
+                m_tLines[pointA.X].Stroke = System.Windows.Media.Brushes.Red;
+                m_tLines[pointA.X].Visibility = System.Windows.Visibility.Visible;
 
                 pointA.X += 1;
                 pointB.X += 1;
             }
 
         }
-
-        
-
        
     }
 }

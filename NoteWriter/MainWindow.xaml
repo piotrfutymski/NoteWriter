@@ -44,9 +44,7 @@
         </WrapPanel>
 
         <Border BorderBrush="White" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan ="3" Margin="64,25,64,64" BorderThickness="2" Width="924" Height="184">
-            <Canvas x:Name="cnvMain"  Width="920" Height="180"  Background="Black" >
-                <Image x:Name="bmpWaves" Height="160" Canvas.Left="10" Canvas.Top="10" Width="900" IsEnabled="False"/>
-            </Canvas>
+            <Canvas x:Name="cnvMain"  Width="920" Height="180"  Background="Black" />
         </Border>
 
     </Grid>
