@@ -24,6 +24,10 @@ namespace NoteWriter
         AudioCapturer capturer;
         WaveRenderer renderer;
 
+        bool saveNext = false;
+        string filename = @"..\..\data\test0.txt";
+        int n = 1;
+
 
         public MainWindow()
         {
@@ -41,18 +45,18 @@ namespace NoteWriter
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
-            Dictionary<float, float> sinData;
             renderer.Render(e.pickData, 0);
-            float frec = SoundCalculator.GetFrequency(e.pickData, out sinData);
-            lbFrec.Content = frec;
-            lbNote.Content = SoundCalculator.NoteFromFrequency(frec).ToString();
 
-            StreamWriter sr = new StreamWriter(@"..\..\data\test.txt");
-            foreach (var item in sinData)
+            if(saveNext)
             {
-                sr.WriteLine(item.ToString());
+                var test = SoundCalculator.GetFrequencyModel(e.pickData);
+                test.SaveToFile(filename);
+                saveNext = false;
+
+                filename = filename.Substring(0, filename.Length - 5)+n.ToString()+".txt";
+                n++;
             }
-            sr.Close();
+            
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -79,17 +83,17 @@ namespace NoteWriter
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            renderer.Render(capturer.LastSound, 0);
+            saveNext = true;
         }
 
         private void LoadSoundData()
         {
             StreamReader sr = new StreamReader(@"..\..\data\sounds.txt");
-            float[] buf = new float[49];
+            float[] buf = new float[61];
 
-            for (int i = 0; i < 49; i++)
+            for (int i = 0; i < 61; i++)
             {
-                buf[i] = (float)int.Parse(sr.ReadLine());
+                buf[i] = int.Parse(sr.ReadLine());
             }
 
             SoundCalculator.SoundData = buf;

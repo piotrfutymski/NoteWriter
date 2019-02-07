@@ -99,7 +99,7 @@ namespace NoteWriter
                 return null;
 
             Note res = new Note();
-            res.Height = 4 + index / 12;
+            res.Height = 3 + index / 12;
             res.Tone = (Note.NTone)(index % 12);
 
             return res;
@@ -120,6 +120,36 @@ namespace NoteWriter
             }
 
             return -1;
+        }
+
+        public static FrequencyModel GetFrequencyModel(List<float> data)
+        {
+            if (SoundData == null)
+                return null;
+
+            Dictionary<float, float> rawData = new Dictionary<float, float>();
+
+            float maxV = data.Max();
+            int adder = 5;
+
+            int j = FindFirst0(data);
+            if (j == -1)
+                return null;
+
+            foreach(var frec in SoundData)
+            {             
+
+                float sum= 0f;
+                for (int i = j; i < data.Count; i += adder)
+                {
+                    sum += (float)Math.Abs(data[i] - maxV * Math.Sin((2 * Math.PI * frec / 44100) * (i - j)));
+                }
+
+                rawData.Add(frec, sum);
+            }
+
+            return new FrequencyModel(rawData);
+
         }
 
     }
