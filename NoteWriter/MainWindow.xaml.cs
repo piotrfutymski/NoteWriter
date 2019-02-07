@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace NoteWriter
 {
@@ -24,27 +25,27 @@ namespace NoteWriter
         WaveRenderer renderer;
         System.Windows.Threading.DispatcherTimer mainTimer;
 
+
         public MainWindow()
         {
             InitializeComponent();
-            capturer = new AudioCapturer();
 
+            capturer = new AudioCapturer();
             capturer.NewPick += Capturer_NewPick;
 
             renderer = new WaveRenderer(cnvMain);
 
-            mainTimer = new System.Windows.Threading.DispatcherTimer();
-            //mainTimer.Tick += MainTimer_Tick;
-            mainTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
-            mainTimer.Start();
-
             slDence.DataContext = capturer;
+
+            LoadSoundData();
         }
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
             renderer.Render(e.pickData, 0);
-            lbFrec.Content = SoundCalculator.GetFrequency(e.pickData);
+            float frec = SoundCalculator.GetFrequency(e.pickData);
+            lbFrec.Content = frec;
+            lbNote.Content = SoundCalculator.NoteFromFrequency(frec).ToString();
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -74,14 +75,19 @@ namespace NoteWriter
             renderer.Render(capturer.LastSound, 0);
         }
 
-      /*  private void RenderThreadFunc()
+        private void LoadSoundData()
         {
-            renderer.Render(capturer.Data, Math.Max(capturer.Data.Count - 900, 0));
-            var bmp = renderer.RenderedBitmap;
-            BitmapSource b = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero,
-                System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
-            bmpWaves.Source = b;
-        }*/
+            StreamReader sr = new StreamReader(@"..\..\data\sounds.txt");
+            float[] buf = new float[49];
+
+            for (int i = 0; i < 49; i++)
+            {
+                buf[i] = (float)int.Parse(sr.ReadLine());
+            }
+
+            SoundCalculator.SoundData = buf;
+            
+        }
 
     }
 }

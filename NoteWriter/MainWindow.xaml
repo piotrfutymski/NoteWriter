@@ -29,6 +29,12 @@
             <Border BorderBrush="DarkGreen" BorderThickness="1">
                 <Label x:Name="lbFrec" Content="650Hz" Background="White" FontSize="16" />
             </Border>
+            <Border BorderBrush="DarkGreen" BorderThickness="1">
+                <Label Content="Note:" Background="White" FontSize="16" />
+            </Border>
+            <Border BorderBrush="DarkGreen" BorderThickness="1">
+                <Label x:Name="lbNote" Content="C4:" Background="White" FontSize="16" />
+            </Border>
         </StackPanel>
 
         <WrapPanel Grid.Row="0" Grid.Column="2" Margin="25,64,64,25">
