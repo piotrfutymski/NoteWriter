@@ -25,7 +25,7 @@ namespace NoteWriter
         WaveRenderer renderer;
 
         bool saveNext = false;
-        string filename = @"..\..\data\test0.txt";
+        string filename = @"..\..\data\testttttt0.txt";
         int n = 1;
 
 
@@ -53,7 +53,7 @@ namespace NoteWriter
                 test.SaveToFile(filename);
                 saveNext = false;
 
-                filename = filename.Substring(0, filename.Length - 5)+n.ToString()+".txt";
+                filename = filename.Substring(0, filename.Length - 6)+n.ToString()+".txt";
                 n++;
             }
             

@@ -124,8 +124,6 @@ namespace NoteWriter
 
         public static FrequencyModel GetFrequencyModel(List<float> data)
         {
-            if (SoundData == null)
-                return null;
 
             Dictionary<float, float> rawData = new Dictionary<float, float>();
 
@@ -136,8 +134,13 @@ namespace NoteWriter
             if (j == -1)
                 return null;
 
-            foreach(var frec in SoundData)
-            {             
+            float frec = 130;
+            float d_frec = 2.5f;
+
+            while (frec < 4400)
+            {
+                if (frec == 260 || frec == 520 || frec == 1040 || frec == 2080 || frec == 4160)
+                    d_frec *= 2;
 
                 float sum= 0f;
                 for (int i = j; i < data.Count; i += adder)
