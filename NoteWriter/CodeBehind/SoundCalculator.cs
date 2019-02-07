@@ -36,12 +36,18 @@ namespace NoteWriter
             int j = FindFirst0(data);
             if (j == -1)
                 return res;
+
+            int adder = 5;
+            int frecAdder = 5;
             
-            for(frec = 100; frec < 5000; frec+=5f)
+            for(frec = 100; frec < 5000; frec+=frecAdder)
             {
+                if (frec == 400 || frec==800 || frec == 1600 || frec == 3200)
+                    frecAdder *= 2;
+
                 float sumA = 0f;
                 float sumB = 0f;
-                for (int i = j; i < data.Count; i+=1)
+                for (int i = j; i < data.Count; i+=adder)
                 {
                     sumA += (float)Math.Abs(data[i] - maxV * Math.Sin((2 * Math.PI * frec / 44100) * (i - j)));
                     sumB += (float)Math.Abs(data[i] - maxV * Math.Sin(Math.PI+(2 * Math.PI * frec / 44100) * (i - j)));
@@ -56,6 +62,11 @@ namespace NoteWriter
             return res;
         }
 
+        public static float GetFrequency0(List<float> data)
+        {
+            return (44100 / (2 * data.Count / HowMany0(data)));
+        }
+
         private static int FindFirst0(List<float> data)
         {
             for (int i = 0; i < data.Count - 1; i++)
@@ -66,7 +77,18 @@ namespace NoteWriter
             return -1;
         }
 
- 
+        private static int HowMany0(List<float> data)
+        {
+            int res = 0;
+            for (int i = 0; i < data.Count - 1; i++)
+            {
+                if (data[i] * data[i + 1] < 0)
+                    res++;
+            }
+            return res;
+        }
+
+
 
     }
 }

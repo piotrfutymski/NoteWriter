@@ -51,7 +51,7 @@ namespace NoteWriter
             bmpWaves.Source = null;
             bmpWaves.Source = b;
 
-            lbFrec.Content = SoundCalculator.GetFrequency(e.pickData);
+            lbFrec.Content = SoundCalculator.GetFrequency0(e.pickData);
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
