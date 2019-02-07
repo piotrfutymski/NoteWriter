@@ -23,7 +23,6 @@ namespace NoteWriter
     {
         AudioCapturer capturer;
         WaveRenderer renderer;
-        System.Windows.Threading.DispatcherTimer mainTimer;
 
 
         public MainWindow()
@@ -42,10 +41,18 @@ namespace NoteWriter
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
+            Dictionary<float, float> sinData;
             renderer.Render(e.pickData, 0);
-            float frec = SoundCalculator.GetFrequency(e.pickData);
+            float frec = SoundCalculator.GetFrequency(e.pickData, out sinData);
             lbFrec.Content = frec;
             lbNote.Content = SoundCalculator.NoteFromFrequency(frec).ToString();
+
+            StreamWriter sr = new StreamWriter(@"..\..\data\test.txt");
+            foreach (var item in sinData)
+            {
+                sr.WriteLine(item.ToString());
+            }
+            sr.Close();
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -86,7 +93,8 @@ namespace NoteWriter
             }
 
             SoundCalculator.SoundData = buf;
-            
+
+            sr.Close();
         }
 
     }

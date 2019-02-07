@@ -27,11 +27,13 @@ namespace NoteWriter
             return avarage;
         }
 
-        public static float GetFrequency(List<float> data)
+        public static float GetFrequency(List<float> data, out Dictionary<float, float> sinData)
         {
             float lastSum = 10000000f;
             float res = 0f;
             float maxV = data.Max();
+
+            sinData = new Dictionary<float, float>();
 
             float frec = 100;
             int j = FindFirst0(data);
@@ -39,7 +41,7 @@ namespace NoteWriter
                 return res;
 
             int adder = 5;
-            int frecAdder = 5;
+            int frecAdder = 2;
             
             for(frec = 100; frec < 5000; frec+=frecAdder)
             {
@@ -58,6 +60,8 @@ namespace NoteWriter
                     res = frec;
                     lastSum = Math.Min(sumA, sumB);
                 }
+
+                sinData.Add(frec, sumA);
                     
             }
             return res;
