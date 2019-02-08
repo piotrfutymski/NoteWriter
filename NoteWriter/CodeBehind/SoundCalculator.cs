@@ -95,7 +95,7 @@ namespace NoteWriter
                 j = 0;
 
             float frec = 100;
-            float d_frec = 1f;
+            float d_frec = 2f;
 
             while (frec < 4300)
             {
