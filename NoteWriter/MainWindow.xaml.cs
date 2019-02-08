@@ -25,7 +25,7 @@ namespace NoteWriter
         WaveRenderer renderer;
 
         bool saveNext = false;
-        string filename = @"..\..\data\testttttt0.txt";
+        string filename = @"..\..\data\test0.txt";
         int n = 1;
 
 
@@ -46,14 +46,17 @@ namespace NoteWriter
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
             renderer.Render(e.pickData, 0);
-
-            if(saveNext)
+            var test = SoundCalculator.GetFrequencyModel(e.pickData);
+            lbInfo.Content = test.GetTonesInfo();
+            if (saveNext)
             {
-                var test = SoundCalculator.GetFrequencyModel(e.pickData);
                 test.SaveToFile(filename);
                 saveNext = false;
 
-                filename = filename.Substring(0, filename.Length - 6)+n.ToString()+".txt";
+                int a = 0;
+                if (n > 9)
+                    a = 1;
+                filename = filename.Substring(0, filename.Length - 5 - a)+n.ToString()+".txt";
                 n++;
             }
             

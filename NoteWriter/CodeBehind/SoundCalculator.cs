@@ -27,46 +27,6 @@ namespace NoteWriter
             return avarage;
         }
 
-        public static float GetFrequency(List<float> data, out Dictionary<float, float> sinData)
-        {
-            float lastSum = 10000000f;
-            float res = 0f;
-            float maxV = data.Max();
-
-            sinData = new Dictionary<float, float>();
-
-            float frec = 100;
-            int j = FindFirst0(data);
-            if (j == -1)
-                return res;
-
-            int adder = 5;
-            int frecAdder = 2;
-            
-            for(frec = 100; frec < 5000; frec+=frecAdder)
-            {
-                if (frec == 400 || frec==800 || frec == 1600 || frec == 3200)
-                    frecAdder *= 2;
-
-                float sumA = 0f;
-                float sumB = 0f;
-                for (int i = j; i < data.Count; i+=adder)
-                {
-                    sumA += (float)Math.Abs(data[i] - maxV * Math.Sin((2 * Math.PI * frec / 44100) * (i - j)));
-                    sumB += (float)Math.Abs(data[i] - maxV * Math.Sin(Math.PI+(2 * Math.PI * frec / 44100) * (i - j)));
-                }
-                if (Math.Min(sumA, sumB) < lastSum)
-                {
-                    res = frec;
-                    lastSum = Math.Min(sumA, sumB);
-                }
-
-                sinData.Add(frec, sumA);
-                    
-            }
-            return res;
-        }
-
         private static int FindFirst0(List<float> data)
         {
             for (int i = 0; i < data.Count - 1; i++)
@@ -88,7 +48,7 @@ namespace NoteWriter
             return res;
         }
 
-        public static Note NoteFromFrequency(float frec)
+       /* public static Note NoteFromFrequency(float frec)
         {
             if (SoundData == null)
                 return null;
@@ -104,7 +64,7 @@ namespace NoteWriter
 
             return res;
 
-        }
+        }*/
 
         private static int FindIndex(float frec)
         {
@@ -128,27 +88,28 @@ namespace NoteWriter
             Dictionary<float, float> rawData = new Dictionary<float, float>();
 
             float maxV = data.Max();
-            int adder = 5;
+            int adder = 4;
 
             int j = FindFirst0(data);
             if (j == -1)
-                return null;
+                j = 0;
 
-            float frec = 130;
-            float d_frec = 2.5f;
+            float frec = 100;
+            float d_frec = 1f;
 
-            while (frec < 4400)
+            while (frec < 4300)
             {
-                if (frec == 260 || frec == 520 || frec == 1040 || frec == 2080 || frec == 4160)
+                if (frec == 200 || frec == 400 || frec == 800 || frec == 1600 || frec == 3200)
                     d_frec *= 2;
 
-                float sum= 0f;
+                float sum = 0f;
                 for (int i = j; i < data.Count; i += adder)
                 {
                     sum += (float)Math.Abs(data[i] - maxV * Math.Sin((2 * Math.PI * frec / 44100) * (i - j)));
                 }
 
                 rawData.Add(frec, sum);
+                frec += d_frec;
             }
 
             return new FrequencyModel(rawData);

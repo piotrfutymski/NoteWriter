@@ -41,8 +41,8 @@
             <Button x:Name="btnStart" Content="Start" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnStart_Click"></Button>
             <Button x:Name="btnStop" Content="Stop" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnStop_Click" IsEnabled="False"></Button>
             <Button x:Name="btnSave" Content="Save" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnSave_Click"></Button>
-            <Label Content ="Nagrywanie" Background="White" Margin="10" FontSize="16" Width="340" HorizontalContentAlignment="Center" Foreground="#FF10B827" />
             <Slider x:Name="slDence" Margin="10" Width="340" Value="{Binding Dence}" Maximum="0.1"/>
+            <Label x:Name="lbInfo" Content ="Nagrywanie" Background="White" Margin="10" FontSize="12" Width="340" HorizontalContentAlignment="Center" Foreground="#FF10B827" />
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan ="3" Margin="25,64,64,25" Background="#FF838383">
