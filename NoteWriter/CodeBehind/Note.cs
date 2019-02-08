@@ -16,6 +16,7 @@ namespace NoteWriter
         NTone tone;
         int height;
 
+
         public NTone Tone { get => tone; set => tone = value; }
         public int Height { get => height; set => height = value; }
 
@@ -23,6 +24,8 @@ namespace NoteWriter
         {
             return (tone.ToString() + height.ToString());
         }
+
+
 
     }
 }

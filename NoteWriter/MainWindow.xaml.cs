@@ -23,6 +23,7 @@ namespace NoteWriter
     {
         AudioCapturer capturer;
         WaveRenderer renderer;
+        NotesFinder notesFinder;
 
         bool saveNext = false;
         string filename = @"..\..\data\test0.txt";

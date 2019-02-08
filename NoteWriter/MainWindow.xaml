@@ -46,7 +46,29 @@
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan ="3" Margin="25,64,64,25" Background="#FF838383">
+            <ComboBox HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <ComboBoxItem Content="C" />
+                <ComboBoxItem Content="Cis" />
+                <ComboBoxItem Content="D" />
+                <ComboBoxItem Content="Dis" />
+                <ComboBoxItem Content="E" />
+                <ComboBoxItem Content="F" />
+                <ComboBoxItem Content="Fis" />
+                <ComboBoxItem Content="G" />
+                <ComboBoxItem Content="Gis" />
+                <ComboBoxItem Content="A" />
+                <ComboBoxItem Content="B" />
+                <ComboBoxItem Content="H" />
+            </ComboBox>
 
+            <ComboBox >
+                <ComboBoxItem Content="3" />
+                <ComboBoxItem Content="4" />
+                <ComboBoxItem Content="5" />
+                <ComboBoxItem Content="6" />
+                <ComboBoxItem Content="7" />
+                <ComboBoxItem Content="8" />
+            </ComboBox>
         </WrapPanel>
 
         <Border BorderBrush="White" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan ="3" Margin="64,25,64,64" BorderThickness="2" Width="924" Height="184">

@@ -70,6 +70,7 @@
     <Compile Include="CodeBehind\AudioCapturer.cs" />
     <Compile Include="CodeBehind\FrequencyModel.cs" />
     <Compile Include="CodeBehind\Note.cs" />
+    <Compile Include="CodeBehind\NotesFinder.cs" />
     <Compile Include="CodeBehind\SoundCalculator.cs" />
     <Compile Include="CodeBehind\WaveRenderer.cs" />
     <Compile Include="MainWindow.xaml.cs">

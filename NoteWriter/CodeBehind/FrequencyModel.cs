@@ -9,7 +9,7 @@ namespace NoteWriter
 {
     class FrequencyModel
     {
-        private const float m_sensitivity = 1f;
+        private const float m_sensitivity = 0.8f;
 
         private Dictionary<float, float> m_Data;
         private float m_firstTone;
@@ -69,7 +69,7 @@ namespace NoteWriter
             string res = "";
             foreach (var item in m_Tones)
             {
-                res += String.Format("{0} - {1} ;", item.ToString(), m_Data[item].ToString("0.00"));
+                res += String.Format("{0} - {1} ;", item.ToString(), (m_Data[item]/m_Data[m_Tones[0]]).ToString("0.00"));
             }
             return res;
         }
