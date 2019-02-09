@@ -144,7 +144,7 @@ namespace NoteWriter
 
         private void btnStopTestPiano_Click(object sender, RoutedEventArgs e)
         {
-            notesFinder.NoteModels.Add(testedNote, notesBuffer);
+            notesFinder.NoteModels.Add(testedNote, new List<FrequencyModel>(notesBuffer));
             testedNote = null;
             notesBuffer.Clear();
         }
