@@ -46,40 +46,6 @@ namespace NoteWriter
             return res;
         }
 
-       /* public static Note NoteFromFrequency(float frec)
-        {
-            if (SoundData == null)
-                return null;
-
-            int index = FindIndex(frec);
-
-            if (index == -1)
-                return null;
-
-            Note res = new Note();
-            res.Height = 3 + index / 12;
-            res.Tone = (Note.NTone)(index % 12);
-
-            return res;
-
-        }
-
-        private static int FindIndex(float frec)
-        {
-            if (frec <= SoundData[0])
-                return 0;
-            if (frec >= SoundData.Last())
-                return SoundData.Length - 1;
-
-            for (int i = 0; i < SoundData.Length - 1; i++)
-            {
-                if (SoundData[i] < frec && SoundData[i + 1] >= frec)
-                    return Math.Abs(frec - SoundData[i]) < Math.Abs(frec - SoundData[i + 1]) ? i : i + 1;
-            }
-
-            return -1;
-        }*/
-
         public static FrequencyModel GetFrequencyModel(List<float> data)
         {
 

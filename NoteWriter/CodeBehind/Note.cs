@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NoteWriter
 {
     [Serializable()]
-    class Note
+    public class Note
     {
         public enum NTone
         {
@@ -24,6 +24,11 @@ namespace NoteWriter
         public override string ToString()
         {
             return (tone.ToString() + height.ToString());
+        }
+
+        public int ToInt()
+        {
+            return height * 12 + (int)tone - 36;
         }
 
 

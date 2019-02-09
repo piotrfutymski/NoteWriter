@@ -8,7 +8,7 @@ using System.IO;
 namespace NoteWriter
 {
     [Serializable()]
-    class FrequencyModel
+    public class FrequencyModel
     {
         private const float m_sensitivity = 0.8f;
 

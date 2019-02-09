@@ -55,8 +55,6 @@ namespace NoteWriter
             renderer.Render(e.pickData, 0);
             var test = SoundCalculator.GetFrequencyModel(e.pickData);
             lbFrec.Content = test.FirstTone.ToString();
-
-            lbNote.Content = notesFinder.GetPlayedNotes(test)[0].ToString();
             
             if(testedNote != null)
             {
@@ -146,11 +144,7 @@ namespace NoteWriter
 
         private void btnStopTestPiano_Click(object sender, RoutedEventArgs e)
         {
-            var colapsed = new FrequencyModel(notesBuffer);
-
-            colapsed.SaveToFile(@"..\..\data\test.txt");
-
-            notesFinder.NoteModels.Add(testedNote, colapsed);
+            notesFinder.NoteModels.Add(testedNote, notesBuffer);
             testedNote = null;
             notesBuffer.Clear();
         }
