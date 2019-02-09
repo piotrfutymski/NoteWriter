@@ -22,7 +22,13 @@ namespace NoteLerner
             var samples = getSamplesFromNoteFinder();
 
             Network net = new Network(new int[] { 268, 60, 60, 61 }, @"..\..\data\neuralNet.fnn");
-            net.TrainAsync(10000, samples);
+
+            while(true)
+            {
+                net.TrainAsync(1, samples);
+                net.Predict(samples[0]);
+            }
+            
         }
 
         static private void LoadSoundData()
