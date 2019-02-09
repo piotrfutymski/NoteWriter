@@ -54,12 +54,16 @@ namespace NoteWriter
         {
             renderer.Render(e.pickData, 0);
             var test = SoundCalculator.GetFrequencyModel(e.pickData);
-            lbInfo.Content = test.GetTonesInfo();
+            lbFrec.Content = test.FirstTone.ToString();
+
+            lbNote.Content = notesFinder.GetPlayedNotes(test)[0].ToString();
             
             if(testedNote != null)
             {
                 notesBuffer.Add(test);
             }
+
+
             
         }
 
@@ -95,7 +99,8 @@ namespace NoteWriter
             try
             {
                 Stream stream = File.Open(@"..\..\data\soundData.dat", FileMode.Open);
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = 
+                    new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
                 notesFinder = (NotesFinder)bf.Deserialize(stream);
                 stream.Close();
@@ -112,7 +117,8 @@ namespace NoteWriter
             try
             {
                 Stream stream = File.Open(@"..\..\data\soundData.dat", FileMode.CreateNew);
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = 
+                    new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
                 bf.Serialize(stream, notesFinder);
                 stream.Close();
