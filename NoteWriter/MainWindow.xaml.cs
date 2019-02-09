@@ -25,6 +25,9 @@ namespace NoteWriter
         WaveRenderer renderer;
         NotesFinder notesFinder;
 
+        Note testedNote = null;
+        List<FrequencyModel> notesBuffer;
+
         bool saveNext = false;
         string filename = @"..\..\data\test0.txt";
         int n = 1;
@@ -38,6 +41,9 @@ namespace NoteWriter
             capturer.NewPick += Capturer_NewPick;
 
             renderer = new WaveRenderer(cnvMain);
+
+            notesFinder = new NotesFinder();
+            notesBuffer = new List<FrequencyModel>();
 
             slDence.DataContext = capturer;
 
@@ -59,6 +65,10 @@ namespace NoteWriter
                     a = 1;
                 filename = filename.Substring(0, filename.Length - 5 - a)+n.ToString()+".txt";
                 n++;
+            }
+            if(testedNote != null)
+            {
+                notesBuffer.Add(test);
             }
             
         }
@@ -105,5 +115,16 @@ namespace NoteWriter
             sr.Close();
         }
 
+        private void btnTestPiano_Click(object sender, RoutedEventArgs e)
+        {
+            testedNote = new Note();
+            //testedNote.Tone = cbNoteTone
+
+        }
+
+        private void btnStopTestPiano_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
