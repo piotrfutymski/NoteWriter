@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoteWriter
 {
+    [Serializable()]
     class Note
     {
         public enum NTone

@@ -107,8 +107,6 @@ namespace NoteWriter
                 }
             }
 
-           // System.Windows.MessageBox.Show(m_waveSource.WaveFormat.SampleRate.ToString());
-           // System.IO.File.WriteAllBytes("C:/Users/Piotr/Desktop/test.bin", e.Buffer);
         }
     }
 }

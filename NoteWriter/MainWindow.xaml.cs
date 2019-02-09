@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 
 namespace NoteWriter
 {
@@ -28,9 +30,7 @@ namespace NoteWriter
         Note testedNote = null;
         List<FrequencyModel> notesBuffer;
 
-        bool saveNext = false;
-        string filename = @"..\..\data\test0.txt";
-        int n = 1;
+
 
 
         public MainWindow()
@@ -55,17 +55,7 @@ namespace NoteWriter
             renderer.Render(e.pickData, 0);
             var test = SoundCalculator.GetFrequencyModel(e.pickData);
             lbInfo.Content = test.GetTonesInfo();
-            if (saveNext)
-            {
-                test.SaveToFile(filename);
-                saveNext = false;
-
-                int a = 0;
-                if (n > 9)
-                    a = 1;
-                filename = filename.Substring(0, filename.Length - 5 - a)+n.ToString()+".txt";
-                n++;
-            }
+            
             if(testedNote != null)
             {
                 notesBuffer.Add(test);
@@ -97,34 +87,66 @@ namespace NoteWriter
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            saveNext = true;
+            SaveSoundData();
         }
 
         private void LoadSoundData()
         {
-            StreamReader sr = new StreamReader(@"..\..\data\sounds.txt");
-            float[] buf = new float[61];
-
-            for (int i = 0; i < 61; i++)
+            try
             {
-                buf[i] = int.Parse(sr.ReadLine());
+                Stream stream = File.Open(@"..\..\data\soundData.dat", FileMode.Open);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                notesFinder = (NotesFinder)bf.Deserialize(stream);
+                stream.Close();
             }
+            catch 
+            {
+                MessageBox.Show("No Sound Data Avaible");
+            }
+            
+        }
 
-            SoundCalculator.SoundData = buf;
+        private void SaveSoundData()
+        {
+            try
+            {
+                Stream stream = File.Open(@"..\..\data\soundData.dat", FileMode.CreateNew);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
-            sr.Close();
+                bf.Serialize(stream, notesFinder);
+                stream.Close();
+            }
+            catch (SerializationException e)
+            {
+                MessageBox.Show("Bug with saving Sound Data " + e.Message);
+            }
         }
 
         private void btnTestPiano_Click(object sender, RoutedEventArgs e)
         {
             testedNote = new Note();
-            //testedNote.Tone = cbNoteTone
+            Note.NTone t;
+            Enum.TryParse(cbNoteTone.Text, out t);
+            testedNote.Tone = t;
+
+            int n;
+            int.TryParse(cbNoteHeight.Text, out n);
+            testedNote.Height = n;
+
+
 
         }
 
         private void btnStopTestPiano_Click(object sender, RoutedEventArgs e)
         {
+            var colapsed = new FrequencyModel(notesBuffer);
 
+            colapsed.SaveToFile(@"..\..\data\test.txt");
+
+            notesFinder.NoteModels.Add(testedNote, colapsed);
+            testedNote = null;
+            notesBuffer.Clear();
         }
     }
 }

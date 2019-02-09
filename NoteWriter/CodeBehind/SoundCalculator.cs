@@ -8,8 +8,6 @@ namespace NoteWriter
 {
     static class SoundCalculator
     {
-        public static float[] SoundData = null;
-
         public static float GetAvarage(List<float> data, int jmp = 1)
         {
             return GetAvarage(data, 0, data.Count, jmp);
@@ -64,7 +62,7 @@ namespace NoteWriter
 
             return res;
 
-        }*/
+        }
 
         private static int FindIndex(float frec)
         {
@@ -80,7 +78,7 @@ namespace NoteWriter
             }
 
             return -1;
-        }
+        }*/
 
         public static FrequencyModel GetFrequencyModel(List<float> data)
         {

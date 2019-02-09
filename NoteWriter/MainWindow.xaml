@@ -46,7 +46,7 @@
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan ="3" Margin="25,64,64,25" Background="#FF838383">
-            <ComboBox x:Name="cbNoteTone" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <ComboBox x:Name="cbNoteTone" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <ComboBoxItem Content="C" />
                 <ComboBoxItem Content="Cis" />
                 <ComboBoxItem Content="D" />
@@ -61,7 +61,7 @@
                 <ComboBoxItem Content="H" />
             </ComboBox>
 
-            <ComboBox x:Name="cbNoteHeight" >
+            <ComboBox x:Name="cbNoteHeight" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ComboBoxItem Content="3" />
                 <ComboBoxItem Content="4" />
                 <ComboBoxItem Content="5" />
@@ -70,8 +70,8 @@
                 <ComboBoxItem Content="8" />
             </ComboBox>
 
-            <Button x:Name="btnTestPiano" Content="Test Piano Key" Click="btnTestPiano_Click" />
-            <Button x:Name="btnStopTestPiano" Content="Stop testing piano Key" Click="btnStopTestPiano_Click" />
+            <Button x:Name="btnTestPiano" Margin="10" Content="Test Piano Key" Click="btnTestPiano_Click" Width="126" />
+            <Button x:Name="btnStopTestPiano" Margin="10" Content="Stop testing piano Key" Click="btnStopTestPiano_Click" Height="52" Width="134" />
         </WrapPanel>
 
         <Border BorderBrush="White" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan ="3" Margin="64,25,64,64" BorderThickness="2" Width="924" Height="184">
