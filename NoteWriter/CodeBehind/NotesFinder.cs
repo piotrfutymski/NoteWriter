@@ -26,30 +26,31 @@ namespace NoteWriter
                 fitValue.Add(item, FitnessValue(sample, item));
             }
 
+            float maxi = fitValue.Aggregate((l, r) => l.Value > r.Value ? l : r).Value;
+
+            var keys = new List<Note>(fitValue.Keys);
+
+            foreach (var k in keys)
+            {
+                fitValue[k] = fitValue[k] / maxi;
+            }
+
            res.Add(fitValue.Aggregate((l, r) => l.Value > r.Value ? l : r).Key);
            return res;
         }
 
         private float FitnessValue(FrequencyModel sample, Note n)
         {
-            int i = 0;
-            int j = 0;
 
             float res = 0;
 
-            while(i < m_NoteModels[n].Tones.Count && j < sample.Tones.Count)
+            for (int i = 0; i < m_NoteModels[n].Tones.Count; i++)
             {
-                float x = m_NoteModels[n].Tones[i] - sample.Tones[j];
-                res += (float)Math.Exp(-(x*x)/1000);
-
-                if (i + 1 == m_NoteModels[n].Tones.Count)
-                    j++;
-                else if (j + 1 == sample.Tones.Count)
-                    i++;
-                else if (x < 0)
-                    i++;
-                else 
-                    j++;
+                for (int j = 0; j < sample.Tones.Count; j++)
+                {
+                    float x = m_NoteModels[n].Tones[i] - sample.Tones[j];
+                    res += (float)Math.Exp(-(x * x) / 400)* m_NoteModels[n].Data[m_NoteModels[n].Tones[i]] * sample.Data[sample.Tones[j]];
+                }
             }
 
             return res;
