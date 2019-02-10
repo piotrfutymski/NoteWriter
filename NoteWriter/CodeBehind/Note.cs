@@ -26,6 +26,16 @@ namespace NoteWriter
             return (tone.ToString() + height.ToString());
         }
 
+        public static explicit operator Note(int n)
+        {
+            Note res = new Note();
+            n += 36;
+            res.Tone = (NTone)(n % 12);
+            res.Height = n / 12 ;
+
+            return res;
+        }
+
         public int ToInt()
         {
             return height * 12 + (int)tone - 36;

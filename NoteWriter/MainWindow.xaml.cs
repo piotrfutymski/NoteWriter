@@ -25,7 +25,7 @@ namespace NoteWriter
     {
         AudioCapturer capturer;
         WaveRenderer renderer;
-        NotesFinder notesFinder;
+        NoteFinder noteFinder;
 
         Note testedNote = null;
         List<FrequencyModel> notesBuffer;
@@ -42,12 +42,12 @@ namespace NoteWriter
 
             renderer = new WaveRenderer(cnvMain);
 
-            notesFinder = new NotesFinder();
+            noteFinder = new NoteFinder(@"..\..\data\net.fnn");
             notesBuffer = new List<FrequencyModel>();
 
             slDence.DataContext = capturer;
 
-            LoadSoundData();
+            //LoadSoundData();
         }
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
@@ -55,12 +55,13 @@ namespace NoteWriter
             renderer.Render(e.pickData, 0);
             var test = SoundCalculator.GetFrequencyModel(e.pickData);
             lbFrec.Content = test.FirstTone.ToString();
+
+            lbNote.Content = noteFinder.getNoteFromModel(test).ToString();
             
             if(testedNote != null)
             {
                 notesBuffer.Add(test);
             }
-
 
             
         }
@@ -89,10 +90,10 @@ namespace NoteWriter
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveSoundData();
+            //SaveSoundData();
         }
 
-        private void LoadSoundData()
+       /* private void LoadSoundData()
         {
             try
             {
@@ -100,7 +101,7 @@ namespace NoteWriter
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = 
                     new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
-                notesFinder = (NotesFinder)bf.Deserialize(stream);
+                notesFinder = (NoteModels)bf.Deserialize(stream);
                 stream.Close();
             }
             catch 
@@ -125,7 +126,7 @@ namespace NoteWriter
             {
                 MessageBox.Show("Bug with saving Sound Data " + e.Message);
             }
-        }
+        }*/
 
         private void btnTestPiano_Click(object sender, RoutedEventArgs e)
         {
@@ -144,9 +145,9 @@ namespace NoteWriter
 
         private void btnStopTestPiano_Click(object sender, RoutedEventArgs e)
         {
-            notesFinder.NoteModels.Add(testedNote, new List<FrequencyModel>(notesBuffer));
-            testedNote = null;
-            notesBuffer.Clear();
+            //notesFinder.NoteModelsData.Add(testedNote, new List<FrequencyModel>(notesBuffer));
+           // testedNote = null;
+            //notesBuffer.Clear();
         }
     }
 }
