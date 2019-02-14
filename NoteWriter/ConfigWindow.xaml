@@ -1,0 +1,30 @@
+﻿<Window x:Class="NoteWriter.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NoteWriter"
+        mc:Ignorable="d"
+        Title="ConfigWindow" Height="320" Width="480" BorderBrush="#FF002070" Background="#FF28282C" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="btnStart" Margin="10,10,362,234" Content="Start" Click="BtnStart_Click"  />
+        <Button x:Name="btnStop" Margin="130,10,242,234" Content="Stop" Click="BtnStop_Click"  />
+        <StackPanel Margin="10,70,10,10">
+            <WrapPanel >
+                <Label Content="Progress" Margin="10"/>
+                <ProgressBar x:Name="prgBar" Width="280" Margin="10"/>
+            </WrapPanel>
+            <WrapPanel >
+                <Label Content="Samples added:" Margin="10"/>
+                <Label x:Name="lbSampleCount" Content="0" Margin="10"/>
+                <Label Content="All samples:" Margin="10"/>
+                <Label x:Name="lbAllSampleCount" Content="0" Margin="10"/>
+            </WrapPanel>
+            
+            <WrapPanel Background="White"  Margin="20,20,93,20" >
+                <Label Content="Note to play:" Margin="10" Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label x:Name="lbNote" Content="C3" Margin="10" Background="White" FontSize="36" Width="143" HorizontalContentAlignment="Center"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -81,5 +81,17 @@ namespace NoteWriter
         {
             appInfo.SetSensitivity(e.NewValue);
         }
+
+        private void ItConfigInstr_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigWindow cnfwindow = new ConfigWindow();
+            cnfwindow.Show();
+
+            cnfwindow.Closed += (s, ee) => { this.IsEnabled = true; noteFinder = new NoteFinder(@"..\..\data\net.fnn"); };
+
+            this.IsEnabled = false;
+        }
+
+
     }
 }

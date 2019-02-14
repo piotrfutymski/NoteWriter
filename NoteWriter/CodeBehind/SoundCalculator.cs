@@ -80,5 +80,35 @@ namespace NoteWriter
 
         }
 
+        static public NeuralNet.Sample GetSampleFromModel(FrequencyModel model)
+        {
+            double[] data = new double[model.Data.Count];
+            int i = 0;
+            foreach (var x in model.GetHighestData())
+            {
+                data[i] = x.Value;
+                i++;
+            }
+
+            return new NeuralNet.Sample(data, new double[61]);
+        }
+
+        static public NeuralNet.Sample GetSampleFromModel(FrequencyModel model, Note n)
+        {
+
+            double[] data = new double[model.Data.Count];
+            int i = 0;
+            foreach (var x in model.GetHighestData())
+            {
+                data[i] = x.Value;
+                i++;
+            }
+
+            double[] pred = new double[61];
+            pred[n.ToInt()] = 1;
+
+            return new NeuralNet.Sample(data, pred);
+        }
+
     }
 }

@@ -26,6 +26,23 @@ namespace NoteWriter
             return (tone.ToString() + height.ToString());
         }
 
+        public Note(int n)
+        {
+            Note t = (Note)(n);
+            Tone = t.Tone;
+            Height = t.Height;
+        }
+
+        public Note() { }
+
+        public static Note operator++(Note n)
+        {
+            if (n.height != 8)
+                return (Note)(n.ToInt() + 1);
+            else
+                return (Note)(0);
+        }
+
         public static explicit operator Note(int n)
         {
             Note res = new Note();

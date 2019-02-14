@@ -18,7 +18,7 @@
             </MenuItem>
 
             <MenuItem Header="_Options">
-                <MenuItem Header="_Configure instrument..."  />
+                <MenuItem x:Name="itConfigInstr" Header="_Configure instrument..." Click="ItConfigInstr_Click"  />
                 <MenuItem Header="_Set sensitivity" />
             </MenuItem>
 
