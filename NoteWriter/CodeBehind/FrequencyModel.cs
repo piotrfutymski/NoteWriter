@@ -7,17 +7,17 @@ using System.IO;
 
 namespace NoteWriter
 {
-    [Serializable()]
     public class FrequencyModel
     {
-        private const float m_sensitivity = 0.8f;
+        private float m_sensitivity = 0.8f;
 
         private Dictionary<float, float> m_Data;
         private float m_firstTone;
         private List<float> m_Tones; 
 
-        public FrequencyModel(Dictionary<float, float>  rD)
+        public FrequencyModel(Dictionary<float, float>  rD, float s = 0.8f)
         {
+            m_sensitivity = s;
             List<float> largestValues = new List<float>();
             m_Data = new Dictionary<float, float>();
             m_Tones = new List<float>();
@@ -30,36 +30,6 @@ namespace NoteWriter
             }
 
             GetTonesFromLargestValues(largestValues);
-        }
-
-        public FrequencyModel(List<FrequencyModel> colapseList)
-        {
-            if (colapseList.Count == 0)
-                return;
-
-            List<float> largestValues = new List<float>();
-            m_Data = new Dictionary<float, float>();
-            m_Tones = new List<float>();
-
-            var keys = colapseList[0].Data.Keys;
-
-            foreach (var k in keys)
-            {
-                List<float> elem = new List<float>();
-                foreach (var item in colapseList)
-                {
-                    elem.Add(item.Data[k]);
-                }
-
-                elem.Sort();
-                var sum = elem[elem.Count() / 2];
-                m_Data.Add(k, sum);
-                if (m_Data[k] > m_sensitivity)
-                    largestValues.Add(k);
-            }
-
-            GetTonesFromLargestValues(largestValues);
-
         }
 
         private void GetTonesFromLargestValues(List<float> largestValues)
@@ -88,9 +58,22 @@ namespace NoteWriter
             return false;
         }
 
+        public Dictionary<float, float> GetHighestData()
+        {
+            Dictionary<float, float> res = new Dictionary<float, float>();
+            foreach (var item in m_Data)
+            {
+                if (item.Value > m_sensitivity)
+                    res.Add(item.Key, item.Value);
+            }
+
+            return res;
+        }
+
         public float FirstTone { get => m_firstTone; }
         public List<float> Tones { get => m_Tones; }
         public Dictionary<float, float> Data { get => m_Data;}
+        public float Sensitivity { get => m_sensitivity;}
 
         public void SaveToFile(string filename)
         {

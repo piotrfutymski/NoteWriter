@@ -5,78 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteWriter"
         mc:Ignorable="d"
-        Title="NoteWriter" Height="720" Width="1180" BorderBrush="#FF002070" Background="#FF080810" >
-    <Grid HorizontalAlignment="Left" Height="688" VerticalAlignment="Top" Width="1170">
-        <Grid.RowDefinitions>
-            <RowDefinition Height ="Auto"/>
-            <RowDefinition Height ="Auto"/>
-            <RowDefinition Height ="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width ="Auto"/>
-            <ColumnDefinition Width ="Auto"/>
-            <ColumnDefinition Width ="*"/>
-        </Grid.ColumnDefinitions>
+        Title="NoteWriter" Height="720" Width="1180" BorderBrush="#FF002070" Background="#FF28282C" >
 
-        <Border BorderBrush="Azure" Grid.Row="0" Grid.Column="0" Margin="64,64,25,25" BorderThickness="2" Width="484" Height="154">
-            <Canvas  Width="480" Height="150"  Background="Black" />
-        </Border>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="25,64,25,25" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Border BorderBrush="DarkGreen" BorderThickness="1">
-                <Label Content="Frequency:" Background="White" FontSize="16" />
-            </Border>
-            <Border BorderBrush="DarkGreen" BorderThickness="1">
-                <Label x:Name="lbFrec" Content="650Hz" Background="White" FontSize="16" />
-            </Border>
-            <Border BorderBrush="DarkGreen" BorderThickness="1">
-                <Label Content="Note:" Background="White" FontSize="16" />
-            </Border>
-            <Border BorderBrush="DarkGreen" BorderThickness="1">
-                <Label x:Name="lbNote" Content="C4:" Background="White" FontSize="16" />
-            </Border>
-        </StackPanel>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="#FFBDBDBD">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"  InputGestureText="ctrl+N" />
+                <MenuItem Header="_Save" InputGestureText="ctrl+S" />
+                <MenuItem Header="_Save and import" InputGestureText="ctrl+I"/>
+                <MenuItem Header="_Load"/>
+            </MenuItem>
 
-        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="25,64,64,25">
-            <Button x:Name="btnStart" Content="Start" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnStart_Click"></Button>
-            <Button x:Name="btnStop" Content="Stop" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnStop_Click" IsEnabled="False"></Button>
-            <Button x:Name="btnSave" Content="Save" Height="50" Width="100" Margin="10" FontSize="16" Click="BtnSave_Click"></Button>
-            <Slider x:Name="slDence" Margin="10" Width="340" Value="{Binding Dence}" Maximum="0.1"/>
-            <Label x:Name="lbInfo" Content ="Nagrywanie" Background="White" Margin="10" FontSize="12" Width="340" HorizontalContentAlignment="Center" Foreground="#FF10B827" />
-        </WrapPanel>
+            <MenuItem Header="_Options">
+                <MenuItem Header="_Configure instrument..."  />
+                <MenuItem Header="_Set sensitivity" />
+            </MenuItem>
 
-        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan ="3" Margin="25,64,64,25" Background="#FF838383">
-            <ComboBox x:Name="cbNoteTone" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <ComboBoxItem Content="C" />
-                <ComboBoxItem Content="Cis" />
-                <ComboBoxItem Content="D" />
-                <ComboBoxItem Content="Dis" />
-                <ComboBoxItem Content="E" />
-                <ComboBoxItem Content="F" />
-                <ComboBoxItem Content="Fis" />
-                <ComboBoxItem Content="G" />
-                <ComboBoxItem Content="Gis" />
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="H" />
-            </ComboBox>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About NoteWriter"  />
+            </MenuItem>
 
-            <ComboBox x:Name="cbNoteHeight" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBoxItem Content="3" />
-                <ComboBoxItem Content="4" />
-                <ComboBoxItem Content="5" />
-                <ComboBoxItem Content="6" />
-                <ComboBoxItem Content="7" />
-                <ComboBoxItem Content="8" />
-            </ComboBox>
+        </Menu>
 
-            <Button x:Name="btnTestPiano" Margin="10" Content="Test Piano Key" Click="btnTestPiano_Click" Width="126" />
-            <Button x:Name="btnStopTestPiano" Margin="10" Content="Stop testing piano Key" Click="btnStopTestPiano_Click" Height="52" Width="134" />
-        </WrapPanel>
+        <Menu DockPanel.Dock="Top" Background="#FFBDBDBD">
+            <ToolBar  Background="#FF8F8E8E" HorizontalAlignment="Center">
+                <Button x:Name="btnPlay" Content="Play" Padding="20,0" Click="BtnPlay_Click"/>
+                <Line Width="2" Stroke="#FF252525" StrokeThickness="1" Y2="22" />
+                <Button x:Name="btnPause" Content="Pause" Padding="20,0" Click="BtnPause_Click"/>
+                <Line Width="2" Stroke="#FF252525" StrokeThickness="1" Y2="22" />
+                <TextBlock Padding="10,0">Capture sensitivity:</TextBlock>
+                <Slider x:Name="slSens"  Width="250" Maximum="0.1" LargeChange="0.01" Value="{Binding Dence}" ValueChanged="SlSens_ValueChanged"/>
+                <Line Width="2" Stroke="#FF252525" StrokeThickness="1" Y2="22" />
+            </ToolBar>
+        </Menu>
 
-        <Border BorderBrush="White" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan ="3" Margin="64,25,64,64" BorderThickness="2" Width="924" Height="184">
-            <Canvas x:Name="cnvMain"  Width="920" Height="180"  Background="Black" />
-        </Border>
+        <Grid  DockPanel.Dock="Top"   >
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="Auto"/>
+                <RowDefinition Height ="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width ="*"/>
+            </Grid.ColumnDefinitions>
 
-    </Grid>
+            <StackPanel Grid.Row="0" Grid.Column="0"  Margin="25">
+                <Border BorderBrush="DarkGray"  BorderThickness="2" Width="Auto" Height="Auto" >
+                    <Canvas x:Name="cnvWave"  Width="720"  Background="Black" Margin="0,0" Height="200" />
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="1"  Margin="25" Background="#FF6C6C6C">
+                <Border BorderBrush="#FF4D4D4D" BorderThickness="1">
+                    <Canvas x:Name="cvFreq" Margin="10" Height="30" >
+                        <Label Content="Frequency:"  FontSize="12" />
+                        <Label x:Name="lbFreq" Content=""  FontSize="12" Canvas.Left="273" Canvas.Top="4" />
+                    </Canvas>
+                </Border>
+                <Border BorderBrush="#FF4D4D4D" BorderThickness="1">
+                    <Canvas x:Name="cvNote" Margin="10" Height="30" >
+                        <Label Content="Note:"  FontSize="12" />
+                        <Label x:Name="lbNote" Content=""  FontSize="12" Canvas.Left="273" Canvas.Top="4" />
+                    </Canvas>
+                </Border>
+                <Border BorderBrush="#FF4D4D4D" BorderThickness="1">
+                    <Canvas Margin="10" Height="30" >
+                        <Label Content="Sensitivity:"  FontSize="12" />
+                        <Label x:Name="lbSens" Content=""  FontSize="12" Canvas.Left="273" Canvas.Top="4" />
+                    </Canvas>
+                </Border>
+                <Border BorderBrush="#FF4D4D4D" BorderThickness="1">
+                    <Canvas x:Name="cvState" Margin="10" Height="30" >
+                        <Label x:Name="lbState" Content=""  FontSize="12" Canvas.Left="110" Width="98" FontStyle="Italic" HorizontalContentAlignment="Center" />
+                    </Canvas>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Margin="30,15" VerticalAlignment="Center">
+                <Line Stroke="#FF0F0F0F" StrokeThickness="1" X1="0" X2="1200" Height="1" Margin="10,0"/>
+
+                <TextBlock Margin="10" HorizontalAlignment="Center" FontSize="20" Background="#FFD6D6D6" MinWidth="100">Title:</TextBlock>
+                <Border BorderBrush="DarkGray"  BorderThickness="2" Width="Auto" Height="Auto" >
+                    <Canvas  Background="White" Height="272"  />
+                </Border>
+            </StackPanel>
+
+        </Grid>
+    </DockPanel>
+
 </Window>

@@ -21,7 +21,7 @@ namespace NoteLerner
 
             var samples = getSamplesFromNoteFinder();
 
-            Network net = new Network(new int[] { 268, 61 },@"..\..\data\neuralNet4.fnn");
+            Network net = new Network(@"..\..\data\neuralNet4.fnn");
 
             while(true)
             {

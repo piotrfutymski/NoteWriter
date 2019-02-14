@@ -34,7 +34,7 @@ namespace NoteWriter
         private int m_sampleTime;
         private int m_sampleCount;
 
-        private float m_Dence;
+        private float m_Sensitivity;
 
 
         public AudioCapturer(int sT = 25, int r = 44100)
@@ -42,7 +42,7 @@ namespace NoteWriter
             m_rate = r;
             m_sampleTime = sT;
             m_sampleCount = (sT * r / 1000);
-            m_Dence = 0.04f;
+            m_Sensitivity = 0.04f;
 
             m_waveSource = new NAudio.Wave.WaveIn();
             m_waveSource.WaveFormat = new NAudio.Wave.WaveFormat(r, 16, 1);
@@ -60,7 +60,7 @@ namespace NoteWriter
         public NAudio.Wave.WaveFormat WaveFormat { get => m_waveSource.WaveFormat; }
         public bool IsRecording { get => m_isRecording; }
         public List<float> LastSound { get => m_lastSample;}
-        public float Dence { get => m_Dence; set => m_Dence = value; }
+        public float Dence { get => m_Sensitivity; set => m_Sensitivity = value; }
 
         public void StartRecording()
         {
@@ -95,7 +95,7 @@ namespace NoteWriter
                     }
                     else if(m_lastSample.Count == m_sampleCount && m_actualSample.Count == m_sampleCount)
                     {
-                        if (SoundCalculator.GetAvarage(m_actualSample) > m_Dence + SoundCalculator.GetAvarage(m_lastSample))
+                        if (SoundCalculator.GetAvarage(m_actualSample) > m_Sensitivity + SoundCalculator.GetAvarage(m_lastSample))
                             NewPick?.Invoke(this, new AudioPickEventArgs(m_actualSample));
                         m_laudPeak = new List<float>();
                         m_laudPeak.AddRange(m_actualSample);
