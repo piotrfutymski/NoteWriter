@@ -41,7 +41,7 @@ namespace NoteWriter
 
             capturer = new AudioCapturer();
             capturer.NewPick += Capturer_NewPick;
-            capturer.Dence = 0.0f;
+            capturer.Dence = 0.01f;
 
             samples = new List<Sample>();
 
@@ -57,7 +57,9 @@ namespace NoteWriter
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if(learningProcess)
+            int a = 5;
+
+            if (learningProcess)
             {
                 prgBar.Value = lPr;
             }
@@ -92,17 +94,18 @@ namespace NoteWriter
 
         private void Learn()
         {
-            Network net = new Network(new int[] { 268, 128, 61 }, @"..\..\data\net.fnn");
+            XDD:
+            Network net = new Network(new int[] { 268, 64, 64, 61 }, @"..\..\data\net.fnn");
             int i = 0;
-            while (i < 500)
+            while (i < 10000)
             {
-                net.TrainAsync(2, samples);
+                net.TrainAsync(2, samples);             
                 i++;
+                goto XDD;                   
                 float testValue = testNetwork(net);
-                if (testValue > 0.95)
+                if (testValue > 0.97)
                     break;
-               lPr = Math.Max(testValue * 100, i / 3);
-
+               lPr = Math.Max(100*testValue/0.97f, i / 10000);
             }
 
             this.Close();

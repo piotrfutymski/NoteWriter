@@ -65,6 +65,8 @@ namespace NoteWriter
             {
                 if (item.Value > m_sensitivity)
                     res.Add(item.Key, item.Value);
+                else
+                    res.Add(item.Key, 0);
             }
 
             return res;
