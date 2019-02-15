@@ -50,7 +50,7 @@ namespace NoteWriter
             testedNote = new Note(0);
 
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0,0,1);
+            timer.Interval = new TimeSpan(0,0,20);
             timer.Tick += Timer_Tick;
 
         }
@@ -61,7 +61,7 @@ namespace NoteWriter
             {
                 prgBar.Value = lPr;
             }
-            else if(timer.Interval == new TimeSpan(0, 0, 1))
+            else if(timer.Interval == new TimeSpan(0, 0, 20))
             {
                 testedNote++;
                 lbNote.Content = "Pause";
@@ -76,14 +76,14 @@ namespace NoteWriter
                     Task.Factory.StartNew(() => Learn());
                 }
 
-                timer.Interval = new TimeSpan(0, 0, 0,0,10);
+                timer.Interval = new TimeSpan(0, 0, 2);
                 prgBar.Value = testedNote.ToInt() * 100 / 61;
                 samplesOneType = 0;
                 lbSampleCount.Content = samplesOneType;
             }
             else
             {
-                timer.Interval = new TimeSpan(0, 0, 1);
+                timer.Interval = new TimeSpan(0, 0, 20);
                 lbNote.Content = testedNote.ToString();
             }
            
@@ -92,9 +92,9 @@ namespace NoteWriter
 
         private void Learn()
         {
-            Network net = new Network(new int[] { 268, 61 }, @"..\..\data\net.fnn");
+            Network net = new Network(new int[] { 268, 128, 61 }, @"..\..\data\net.fnn");
             int i = 0;
-            while (i < 300)
+            while (i < 500)
             {
                 net.TrainAsync(2, samples);
                 i++;
