@@ -31,9 +31,7 @@ namespace NoteWriter
         DispatcherTimer updateTimer;
 
         Song testSong;
-        List<Note> nBuff;
-        bool gettingtoBuff;
-        DateTime buffStart;
+        DateTime lastSound;
 
         public MainWindow()
         {
@@ -55,8 +53,7 @@ namespace NoteWriter
             
 
             testSong = new Song(new SongRenderer(@"..\..\data\img\note.png", @"..\..\data\img\sharp.png", @"..\..\data\img\background.png", cnvSong));
-            nBuff = new List<Note>();
-            gettingtoBuff = false;
+            lastSound = DateTime.Now;
 
             
         }
@@ -68,41 +65,22 @@ namespace NoteWriter
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
-            FrequencyModel test= new FrequencyModel(new Dictionary<float, float>());
-            Task t = Task.Factory.StartNew(()=> { test =  SoundCalculator.GetFrequencyModel(e.pickData); });
-            renderer.Render(e.pickData, 0);
-            t.Wait();
-            appInfo.SetFrequency(test.FirstTone);
-            Note n = noteFinder.getNoteFromModel(test);
-            appInfo.SetNote(n);
-
-            if(!gettingtoBuff)
+            if(DateTime.Now - lastSound > new TimeSpan(0,0,0,0,150))
             {
-                gettingtoBuff = true;
-                buffStart = DateTime.Now;
-                nBuff.Add(n);
+                var t0 = DateTime.Now;
+                FrequencyModel test = new FrequencyModel(new Dictionary<float, float>());
+                Task t = Task.Factory.StartNew(() => { test = SoundCalculator.GetFrequencyModel(e.pickData); });
+                renderer.Render(e.pickData, 0);
+                t.Wait();
+                appInfo.SetFrequency(test.FirstTone);
+                Note n = noteFinder.getNoteFromModel(test);
+                appInfo.SetNote(n);
+
+                testSong.AddNote(n, t0); 
             }
-            else
-            {
-                if (DateTime.Now - buffStart < new TimeSpan(0, 0, 0, 0, 200))
-                {
-                    nBuff.Add(n);
-                }
-                else
-                {
-                    testSong.AddNote(MostFrequentInBuff(), buffStart);
-                    nBuff.Clear();
-                    gettingtoBuff = false;
-                }
-            }                                
+            lastSound = DateTime.Now;              
 
         }
-
-        private Note MostFrequentInBuff()
-        {
-            return (Note)(from i in nBuff group i by i.ToInt() into grp orderby grp.Count() descending select grp.Key).First();
-        }
-
 
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {

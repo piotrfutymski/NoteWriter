@@ -52,7 +52,7 @@ namespace NoteWriter
             Dictionary<float, float> rawData = new Dictionary<float, float>();
 
             float maxV = data.Max();
-            int adder = 6;
+            int adder = 4;
 
             int j = FindFirst0(data);
             if (j == -1)

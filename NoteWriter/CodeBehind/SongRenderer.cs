@@ -143,13 +143,28 @@ namespace NoteWriter
                 s++;
             }
 
-
-            lineSymbols[l].X1 = prctPos.X * m_screen.ActualWidth - 12;
-            lineSymbols[l].X2 = prctPos.X * m_screen.ActualWidth + 12;
-            lineSymbols[l].Y1 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
-            lineSymbols[l].Y2 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
-            lineSymbols[l].Visibility = Visibility.Visible;
-            l++;
+            if(h % 2 == 0)
+            {
+                lineSymbols[l].X1 = prctPos.X * m_screen.ActualWidth - 12;
+                lineSymbols[l].X2 = prctPos.X * m_screen.ActualWidth + 12;
+                lineSymbols[l].Y1 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
+                lineSymbols[l].Y2 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
+                lineSymbols[l].Visibility = Visibility.Visible;
+                l++;
+            }
+            
+            if(h >= 25)
+            {
+                for (int i = 24; i < h; i+= 2)
+                {
+                    lineSymbols[l].X1 = prctPos.X * m_screen.ActualWidth - 12;
+                    lineSymbols[l].X2 = prctPos.X * m_screen.ActualWidth + 12;
+                    lineSymbols[l].Y1 = m_screen.ActualHeight - ((double)i / 34.0) * m_screen.ActualHeight;
+                    lineSymbols[l].Y2 = m_screen.ActualHeight - ((double)i / 34.0) * m_screen.ActualHeight;
+                    lineSymbols[l].Visibility = Visibility.Visible;
+                    l++;
+                }
+            }
 
         }
     }
