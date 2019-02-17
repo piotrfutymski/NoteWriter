@@ -31,7 +31,9 @@ namespace NoteWriter
         DispatcherTimer updateTimer;
 
         Song testSong;
-
+        List<Note> nBuff;
+        bool gettingtoBuff;
+        DateTime buffStart;
 
         public MainWindow()
         {
@@ -50,9 +52,11 @@ namespace NoteWriter
             updateTimer = new DispatcherTimer();
             updateTimer.Interval = new TimeSpan(0, 0, 0, 0, 30);
             updateTimer.Tick += UpdateTimer_Tick;
-            updateTimer.Start();
+            
 
             testSong = new Song(new SongRenderer(@"..\..\data\img\note.png", @"..\..\data\img\sharp.png", @"..\..\data\img\background.png", cnvSong));
+            nBuff = new List<Note>();
+            gettingtoBuff = false;
 
             
         }
@@ -64,17 +68,39 @@ namespace NoteWriter
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
         {
+            FrequencyModel test= new FrequencyModel(new Dictionary<float, float>());
+            Task t = Task.Factory.StartNew(()=> { test =  SoundCalculator.GetFrequencyModel(e.pickData); });
             renderer.Render(e.pickData, 0);
-            var test = SoundCalculator.GetFrequencyModel(e.pickData);
+            t.Wait();
             appInfo.SetFrequency(test.FirstTone);
             Note n = noteFinder.getNoteFromModel(test);
             appInfo.SetNote(n);
 
-            if(testSong.GetLastNoteTime() > new TimeSpan(0,0,0,0,100) || testSong.GetLastNoteTime() == new TimeSpan(0))
+            if(!gettingtoBuff)
             {
-                testSong.AddNote(n);
+                gettingtoBuff = true;
+                buffStart = DateTime.Now;
+                nBuff.Add(n);
             }
+            else
+            {
+                if (DateTime.Now - buffStart < new TimeSpan(0, 0, 0, 0, 200))
+                {
+                    nBuff.Add(n);
+                }
+                else
+                {
+                    testSong.AddNote(MostFrequentInBuff(), buffStart);
+                    nBuff.Clear();
+                    gettingtoBuff = false;
+                }
+            }                                
 
+        }
+
+        private Note MostFrequentInBuff()
+        {
+            return (Note)(from i in nBuff group i by i.ToInt() into grp orderby grp.Count() descending select grp.Key).First();
         }
 
 
@@ -84,6 +110,7 @@ namespace NoteWriter
             btnPlay.IsEnabled = true;
             btnPause.IsEnabled = false;
             appInfo.SetState(false);
+            updateTimer.Stop();
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
@@ -94,6 +121,7 @@ namespace NoteWriter
                 btnPlay.IsEnabled = false;
                 btnPause.IsEnabled = true;
                 appInfo.SetState(true);
+                updateTimer.Start();
             }
             catch (NAudio.MmException ex)
             {

@@ -26,11 +26,10 @@ namespace NoteWriter
         }
 
         public string Title { get => title; set => title = value; }
-        public DateTime StartTime { get => startTime;}
 
-        public void AddNote(Note n)
+        public void AddNote(Note n, DateTime t)
         {
-            TimeSpan s = DateTime.Now - startTime;
+            TimeSpan s = t - startTime;
             m_songNotes.Add(new SongNote(s, n));
         }
 

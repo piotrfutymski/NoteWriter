@@ -76,9 +76,10 @@ namespace NoteWriter
                 Line l = new Line();
                 lineSymbols.Add(l);
                 l.Visibility = Visibility.Hidden;
+                l.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
                 l.StrokeThickness = 1;
                 screen.Children.Add(l);
-                Canvas.SetZIndex(l, 0);
+                Canvas.SetZIndex(l, 10);
 
             }
 
@@ -142,10 +143,11 @@ namespace NoteWriter
                 s++;
             }
 
+
             lineSymbols[l].X1 = prctPos.X * m_screen.ActualWidth - 12;
             lineSymbols[l].X2 = prctPos.X * m_screen.ActualWidth + 12;
-            lineSymbols[l].Y1 = prctPos.Y * m_screen.ActualHeight;
-            lineSymbols[l].Y2 = prctPos.Y * m_screen.ActualHeight;
+            lineSymbols[l].Y1 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
+            lineSymbols[l].Y2 = m_screen.ActualHeight - prctPos.Y * m_screen.ActualHeight;
             lineSymbols[l].Visibility = Visibility.Visible;
             l++;
 
