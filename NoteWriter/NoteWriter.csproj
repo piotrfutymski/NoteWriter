@@ -79,6 +79,9 @@
     <Compile Include="CodeBehind\FrequencyModel.cs" />
     <Compile Include="CodeBehind\Note.cs" />
     <Compile Include="CodeBehind\NoteFinder.cs" />
+    <Compile Include="CodeBehind\Song.cs" />
+    <Compile Include="CodeBehind\SongNote.cs" />
+    <Compile Include="CodeBehind\SongRenderer.cs" />
     <Compile Include="CodeBehind\SoundCalculator.cs" />
     <Compile Include="CodeBehind\WaveRenderer.cs" />
     <Compile Include="ConfigWindow.xaml.cs">

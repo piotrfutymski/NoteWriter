@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
+using System.Windows.Threading;
 
 namespace NoteWriter
 {
@@ -27,6 +28,9 @@ namespace NoteWriter
         WaveRenderer renderer;
         AppInfo appInfo;
         NoteFinder noteFinder;
+        DispatcherTimer updateTimer;
+
+        Song testSong;
 
 
         public MainWindow()
@@ -42,6 +46,20 @@ namespace NoteWriter
             appInfo = new AppInfo(lbFreq, lbNote, lbState,lbSens);
 
             noteFinder = new NoteFinder(@"..\..\data\net.fnn");
+
+            updateTimer = new DispatcherTimer();
+            updateTimer.Interval = new TimeSpan(0, 0, 0, 0, 30);
+            updateTimer.Tick += UpdateTimer_Tick;
+            updateTimer.Start();
+
+            testSong = new Song(new SongRenderer(@"..\..\data\img\note.png", @"..\..\data\img\sharp.png", @"..\..\data\img\background.png", cnvSong));
+
+            
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            testSong.RenderNotes();
         }
 
         private void Capturer_NewPick(object sender, AudioPickEventArgs e)
@@ -49,7 +67,13 @@ namespace NoteWriter
             renderer.Render(e.pickData, 0);
             var test = SoundCalculator.GetFrequencyModel(e.pickData);
             appInfo.SetFrequency(test.FirstTone);
-            appInfo.SetNote(noteFinder.getNoteFromModel(test));
+            Note n = noteFinder.getNoteFromModel(test);
+            appInfo.SetNote(n);
+
+            if(testSong.GetLastNoteTime() > new TimeSpan(0,0,0,0,100) || testSong.GetLastNoteTime() == new TimeSpan(0))
+            {
+                testSong.AddNote(n);
+            }
 
         }
 

@@ -87,7 +87,7 @@
 
                 <TextBlock Margin="10" HorizontalAlignment="Center" FontSize="20" Background="#FFD6D6D6" MinWidth="100">Title:</TextBlock>
                 <Border BorderBrush="DarkGray"  BorderThickness="2" Width="Auto" Height="Auto" >
-                    <Canvas  Background="White" Height="272"  />
+                    <Canvas x:Name="cnvSong"  Background="White" Height="272"  />
                 </Border>
             </StackPanel>
 

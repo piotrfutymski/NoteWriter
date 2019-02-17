@@ -57,16 +57,17 @@ namespace NoteWriter
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            int a = 5;
-
             if (learningProcess)
             {
                 prgBar.Value = lPr;
+                if (lPr > 99)
+                    this.Close();
             }
             else if(timer.Interval == new TimeSpan(0, 0, 20))
             {
                 testedNote++;
                 lbNote.Content = "Pause";
+                capturer.StopRecording();
                 if (testedNote.ToInt() == 0)
                 {
                     learningProcess = true;
@@ -87,6 +88,7 @@ namespace NoteWriter
             {
                 timer.Interval = new TimeSpan(0, 0, 20);
                 lbNote.Content = testedNote.ToString();
+                capturer.StartRecording();
             }
            
 
@@ -94,21 +96,17 @@ namespace NoteWriter
 
         private void Learn()
         {
-            XDD:
             Network net = new Network(new int[] { 268, 64, 64, 61 }, @"..\..\data\net.fnn");
             int i = 0;
             while (i < 10000)
             {
                 net.TrainAsync(2, samples);             
-                i++;
-                goto XDD;                   
+                i++;                 
                 float testValue = testNetwork(net);
                 if (testValue > 0.97)
                     break;
                lPr = Math.Max(100*testValue/0.97f, i / 10000);
             }
-
-            this.Close();
         }
 
         private float testNetwork(Network net)
