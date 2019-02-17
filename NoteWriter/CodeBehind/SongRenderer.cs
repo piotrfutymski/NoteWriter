@@ -123,21 +123,21 @@ namespace NoteWriter
             int[] adder = new int[] { 0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6 };
             bool[] sharp = new bool[] { false, true, false, true, false, false, true, false, true, false, true, false };
 
-            int h = (note.Height - 3) * 7 + 5 + adder[(int)note.Tone];
+            int h = (note.Height - 3) * 7+ 5 + adder[(int)note.Tone];
             if (note.Height > 6)
                 h -= 7;
 
             prctPos.Y = (double)h / 34.0;
 
             Canvas.SetLeft(noteSymbols[n], prctPos.X * m_screen.ActualWidth - 8);
-            Canvas.SetBottom(noteSymbols[n], prctPos.Y * m_screen.ActualHeight + 8);
+            Canvas.SetBottom(noteSymbols[n], prctPos.Y * m_screen.ActualHeight - 8);
             noteSymbols[n].Visibility = Visibility.Visible;
             n++;
 
             if(sharp[(int)note.Tone])
             {
                 Canvas.SetLeft(sharpSymbols[s], prctPos.X * m_screen.ActualWidth - 24);
-                Canvas.SetBottom(sharpSymbols[s], prctPos.Y * m_screen.ActualHeight + 8);
+                Canvas.SetBottom(sharpSymbols[s], prctPos.Y * m_screen.ActualHeight - 8);
                 sharpSymbols[s].Visibility = Visibility.Visible;
                 s++;
             }
